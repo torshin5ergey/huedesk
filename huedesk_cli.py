@@ -1,13 +1,14 @@
 #! python3
 """
-huedesk_cli.py - Command-line interface for generating wallpapers with colors and gradients.
+huedesk_cli.py - Command-line interface for generating wallpapers
+with colors and gradients.
 
 Written by Sergey Torshin @torshin5ergey
 """
 
-
-from image_generator import (parse_color, create_solid_color_image,
-                             create_gradient_color_image,
+import re
+from image_generator import (generate_random_colors, parse_color,
+                             create_solid_color_image, create_gradient_color_image,
                              ParserError, ImageGeneratorError)
 
 
@@ -15,7 +16,22 @@ def main_cli(parser, args):
     """Run with command-line options (arguments)."""
     try:
         width, height = map(int, args.dimensions.lower().split('x'))
-        colors = parse_color(args.color)
+
+        # Random colors
+        match = re.match(r'^random(\d)*$', (args.color))
+        if match:
+            rand_color_count = match.group(1)
+            try:
+                colors_number = int(rand_color_count)
+                if 1 <= colors_number <= 4:
+                    colors = generate_random_colors(colors_number)
+                else:
+                    parser.error("Invalid number of colors. Should be between 1 and 4")
+            except TypeError:
+                colors = generate_random_colors()
+        else:
+            colors = parse_color(args.color)
+
         output_path = args.output
         if len(colors) == 1:
             create_solid_color_image(width, height, *colors, output_path)

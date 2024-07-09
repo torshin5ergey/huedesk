@@ -6,7 +6,9 @@ Written by Sergey Torshin @torshin5ergey
 """
 
 from typing import Literal, Tuple, List
+from random import randint
 from PIL import Image
+
 
 class ParserError(Exception):
     """Custom HueDesk exception.
@@ -16,6 +18,7 @@ class ParserError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 class ImageGeneratorError(Exception):
     """Custom HueDesk exception.
     For errors in the image generation process.
@@ -23,6 +26,27 @@ class ImageGeneratorError(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
+
+def generate_random_colors(count=None) -> List[Tuple[int, int, int]]:
+    """Generate a list of random colors.
+    
+    Args:
+        count (int, optional): The number of colors to generate. If not
+        specified, a random number between 1 and 4 will be used. (default is None)
+        
+    Returns:
+        colors (List[Tuple[int, int, int]]): A list of tuples representing RGB
+                                             colors. Each tuple contains three
+                                             integers (0-255).
+    """
+    colors = []
+    if count is None:
+        count = randint(1, 4)
+    for _ in range(1, count+1):
+        color = (randint(0, 255), randint(0, 255), randint(0, 255))
+        colors.append(color)
+    return colors
 
 
 def parse_color(color: str) -> List[Tuple[int, int, int]]:

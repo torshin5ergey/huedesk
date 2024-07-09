@@ -8,8 +8,11 @@ Written by Sergey Torshin @torshin5ergey
 
 import sys
 import curses
+import re
 from typing import Literal, List, Tuple
-from image_generator import parse_color, create_solid_color_image, create_gradient_color_image
+from image_generator import (generate_random_colors, parse_color,
+                             create_solid_color_image,
+                             create_gradient_color_image)
 
 
 LOGO = (
@@ -47,7 +50,23 @@ def process_image(stdscr, menu_items: List[str], menu_values: List[str],
         if width <= 1 or height <= 1:
             raise HueDeskCursesError("Invalid dimensions foramt. " \
                                "The values must be greater than 1")
-        color = parse_color(menu_values[2])
+
+        # Random colors
+        match = re.match(r'^random(\d)*$', menu_values[2])
+        if match:
+            rand_color_count = match.group(1)
+            try:
+                colors_number = int(rand_color_count)
+                if 1 <= colors_number <= 4:
+                    color = generate_random_colors(colors_number)
+                else:
+                    raise HueDeskCursesError("Invalid number of colors. " \
+                                             "Should be between 1 and 4")
+            except TypeError:
+                color = generate_random_colors()
+        else:
+            color = parse_color(menu_values[2])
+
         output_path = menu_values[3]
         # Generate image
         if len(color) == 1:
