@@ -27,12 +27,12 @@ def main():
                         help="Wallpaper dimensions <WIDTHxHEIGHT> in pixels "
                             "(default is 1920x1080).")
     parser.add_argument('-c', '--color', type=str,
-                        help='Color in R,G,B or #HEX for solid color. '
+                        help='Color in <R,G,B> or <#HEX> for solid color. '
                             'Or start-end format for up to 4-color gradient '
                             '(e.g., 255,0,0 or #FF0000 or #FF0000-#00FF00). '
                             'You can also specify <random> for a random number '
                             'of colors (1 to 4), or <randomN> for exactly N random '
-                            'colors (e.g., random3).')
+                            'colors (e.g., random or random3).')
     parser.add_argument('-o', '--output', type=str, default='wallpaper.png',
                         help='Output image path (default is wallpaper.png).')
 

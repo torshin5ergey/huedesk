@@ -63,6 +63,9 @@ def parse_color(color: str) -> List[Tuple[int, int, int]]:
     """
     colors = []  # Output colors list
     color_parts = color.split('-')
+    if not (1 <= len(color_parts) <= 4):
+        raise ParserError("Invalid color format. Invalid number of colors. "
+                          "Should be between 1 and 4.")
     for c in color_parts:
         current_color = c.lstrip('#')
         if ',' in current_color:  # RGB format

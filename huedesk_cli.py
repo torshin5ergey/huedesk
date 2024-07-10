@@ -26,7 +26,8 @@ def main_cli(parser, args):
                 if 1 <= colors_number <= 4:
                     colors = generate_random_colors(colors_number)
                 else:
-                    parser.error("Invalid number of colors. Should be between 1 and 4")
+                    parser.error("\033[31m" + "Invalid number of colors."
+                                 "Should be between 1 and 4." + "\033[0m")
             except TypeError:
                 colors = generate_random_colors()
         else:

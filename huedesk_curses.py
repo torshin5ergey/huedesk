@@ -48,7 +48,7 @@ def process_image(stdscr, menu_items: List[str], menu_values: List[str],
         height = int(menu_values[1])
         # Width and height validation
         if width <= 1 or height <= 1:
-            raise HueDeskCursesError("Invalid dimensions foramt. " \
+            raise HueDeskCursesError("Invalid dimensions foramt. "
                                "The values must be greater than 1")
 
         # Random colors
