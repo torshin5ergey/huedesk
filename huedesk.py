@@ -45,6 +45,8 @@ def main():
         main_cli(parser, args)
     else:
         wrapper(main_curses)
+        print("\033[31m" + "Error. The window size is too small to display the interface.\n"
+              "Increase the window size or use the one-line mode." + "\033[0m")
 
 if __name__ == '__main__':
     main()

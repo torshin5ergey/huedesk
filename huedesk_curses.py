@@ -9,6 +9,7 @@ Written by Sergey Torshin @torshin5ergey
 import sys
 import curses
 import re
+import os
 from typing import Literal, List, Tuple
 from image_generator import (generate_random_colors, parse_color,
                              create_solid_color_image,
@@ -78,21 +79,21 @@ def process_image(stdscr, menu_items: List[str], menu_values: List[str],
                                      "Should be between 1 and 4")
 
         if mode == 'generate':
-            stdscr.addstr(len(menu_items) + 6, 0, "Success! " \
+            stdscr.addstr(len(menu_items) + 5, 0, "Success! " \
                       f"Wallpaper saved as {output_path}.", curses.color_pair(1))
         elif mode == 'preview':
-            stdscr.addstr(len(menu_items) + 6, 0, "Success! " \
+            stdscr.addstr(len(menu_items) + 5, 0, "Success! " \
                       "Wallpaper opened in scaled preview mode.", curses.color_pair(1))
         else:
             raise HueDeskCursesError
     except ValueError:
-        stdscr.addstr(len(menu_items) + 6, 0, "Warning: " \
+        stdscr.addstr(len(menu_items) + 5, 0, "Warning: " \
                       "Wrong parameters format.", curses.color_pair(2))
     except HueDeskCursesError as e:
-        stdscr.addstr(len(menu_items) + 6, 0, "Warning: " \
+        stdscr.addstr(len(menu_items) + 5, 0, "Warning: " \
                       f"{e}.", curses.color_pair(2))
     except Exception as e:
-        stdscr.addstr(len(menu_items) + 6, 0, "Error: " \
+        stdscr.addstr(len(menu_items) + 5, 0, "Error: " \
                       f"Can't create wallpaper. {e}", curses.color_pair(2))
     stdscr.getch()
     stdscr.refresh()
@@ -105,6 +106,7 @@ def main_curses(stdscr):
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)   # Red
 
     curses.curs_set(0)  # Disable cursor
+    stdscr.scrollok(True)
     stdscr.clear()
     stdscr.refresh()
 
@@ -116,36 +118,39 @@ def main_curses(stdscr):
     menu_values = ['1920', '1080', '', 'wallpaper.png', '', '', '']
 
     current_row = 0
-    while True:
-        stdscr.clear()
-        # Display logo
-        for row in range(4):
-            stdscr.addstr(row, 0, LOGO[row])
-        stdscr.addstr(4, 7, 'Setup wallpaper')
-        # Display menu
-        for idx, item in enumerate(menu_items):
-            if item in ('PREVIEW', 'GENERATE', 'EXIT'):
-                attr = curses.A_REVERSE if idx == current_row else curses.A_BOLD
-            else:
-                attr = curses.A_REVERSE if idx == current_row else curses.A_NORMAL
-            stdscr.addstr(idx + 5, 0, item.ljust(max_len+sep_len), attr)
-            stdscr.addstr(idx + 5, max_len+sep_len, str(menu_values[idx]), attr)
-        stdscr.refresh()
+    try:
+        while True:
+            stdscr.clear()
+            # Display logo
+            for row in range(4):
+                stdscr.addstr(row, 0, LOGO[row])
+            stdscr.addstr(4, 7, 'Setup wallpaper')
+            # Display menu
+            for idx, item in enumerate(menu_items):
+                if item in ('PREVIEW', 'GENERATE', 'EXIT'):
+                    attr = curses.A_REVERSE if idx == current_row else curses.A_BOLD
+                else:
+                    attr = curses.A_REVERSE if idx == current_row else curses.A_NORMAL
+                stdscr.addstr(idx + 5, 0, item.ljust(max_len+sep_len), attr)
+                stdscr.addstr(idx + 5, max_len+sep_len, str(menu_values[idx]), attr)
+            stdscr.refresh()
 
-        key = stdscr.getch()
-        if key == curses.KEY_DOWN:
-            current_row = (current_row + 1) % len(menu_items)
-        elif key == curses.KEY_UP:
-            current_row = (current_row - 1) % len(menu_items)
-        elif key == curses.KEY_ENTER or key in [10, 13]:
-            if menu_items[current_row].strip() == 'GENERATE':
-                process_image(stdscr, menu_items, menu_values)
-            elif menu_items[current_row].strip() == 'PREVIEW':
-                process_image(stdscr, menu_items, menu_values, mode='preview')
-            elif menu_items[current_row].strip() == 'EXIT':
-                sys.exit()
-            else:
-                edit_parameter(stdscr, menu_values, current_row, (max_len, sep_len))
+            key = stdscr.getch()
+            if key == curses.KEY_DOWN:
+                current_row = (current_row + 1) % len(menu_items)
+            elif key == curses.KEY_UP:
+                current_row = (current_row - 1) % len(menu_items)
+            elif key == curses.KEY_ENTER or key in [10, 13]:
+                if menu_items[current_row].strip() == 'GENERATE':
+                    process_image(stdscr, menu_items, menu_values)
+                elif menu_items[current_row].strip() == 'PREVIEW':
+                    process_image(stdscr, menu_items, menu_values, mode='preview')
+                elif menu_items[current_row].strip() == 'EXIT':
+                    sys.exit()
+                else:
+                    edit_parameter(stdscr, menu_values, current_row, (max_len, sep_len))
+    except curses.error:
+        curses.endwin()
 
 
 def edit_parameter(stdscr, menu_values: List[str], current_row: int,
