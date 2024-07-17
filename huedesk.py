@@ -10,6 +10,7 @@ Usage:
 Written by Sergey Torshin @torshin5ergey
 """
 
+import sys
 import argparse
 from curses import wrapper
 
@@ -50,3 +51,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    sys.exit()
