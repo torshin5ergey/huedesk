@@ -9,6 +9,7 @@ Written by Sergey Torshin @torshin5ergey
 import sys
 import curses
 import re
+import os
 from typing import Literal, List, Tuple
 from image_generator import (generate_random_colors, parse_color,
                              create_solid_color_image,
@@ -78,21 +79,21 @@ def process_image(stdscr, menu_items: List[str], menu_values: List[str],
                                      "Should be between 1 and 4")
 
         if mode == 'generate':
-            stdscr.addstr(len(menu_items) + 6, 0, "Success! " \
+            stdscr.addstr(len(menu_items) + 5, 0, "Success! " \
                       f"Wallpaper saved as {output_path}.", curses.color_pair(1))
         elif mode == 'preview':
-            stdscr.addstr(len(menu_items) + 6, 0, "Success! " \
+            stdscr.addstr(len(menu_items) + 5, 0, "Success! " \
                       "Wallpaper opened in scaled preview mode.", curses.color_pair(1))
         else:
             raise HueDeskCursesError
     except ValueError:
-        stdscr.addstr(len(menu_items) + 6, 0, "Warning: " \
+        stdscr.addstr(len(menu_items) + 5, 0, "Warning: " \
                       "Wrong parameters format.", curses.color_pair(2))
     except HueDeskCursesError as e:
-        stdscr.addstr(len(menu_items) + 6, 0, "Warning: " \
+        stdscr.addstr(len(menu_items) + 5, 0, "Warning: " \
                       f"{e}.", curses.color_pair(2))
     except Exception as e:
-        stdscr.addstr(len(menu_items) + 6, 0, "Error: " \
+        stdscr.addstr(len(menu_items) + 5, 0, "Error: " \
                       f"Can't create wallpaper. {e}", curses.color_pair(2))
     stdscr.getch()
     stdscr.refresh()
@@ -105,6 +106,7 @@ def main_curses(stdscr):
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)   # Red
 
     curses.curs_set(0)  # Disable cursor
+    stdscr.scrollok(True)
     stdscr.clear()
     stdscr.refresh()
 
