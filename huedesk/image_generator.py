@@ -1,6 +1,6 @@
 #! python3
 """
-image-generator.py - Parse colors and generate gradient/solid color wallpaper
+image_generator.py - Parse colors and generate gradient/solid color wallpaper
 
 Written by Sergey Torshin @torshin5ergey
 """

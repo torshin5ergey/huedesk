@@ -1,7 +1,7 @@
 #! python3
 """
-huedesk_cli.py - Command-line interface for generating wallpapers
-with colors and gradients.
+cli_mode.py - Command-line interface for generating wallpapers with colors and
+gradients.
 
 Written by Sergey Torshin @torshin5ergey
 """
