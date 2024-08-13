@@ -1,11 +1,20 @@
 # HueDesk
 
-This script generates solid or gradient wallpapers in various formats.
-It can be used either in CLI mode or in an interactive mode.
+**HueDesk** generates solid or gradient color wallpapers in various formats.
 
 ## Description
 
+**HueDesk** is designed for generating custom wallpapers with solid colors or gradients. The tool offers two modes of operation:
+- **CLI Mode**: For users who prefer working from the command line, **HueDesk** provides a range of options to specify dimensions, colors, and output file names. This mode supports both solid colors and gradients with up to four colors.
+- **Interactive Mode**: For a more user-friendly experience, **HueDesk** includes an interactive mode that simplifies the process of generating wallpapers by guiding users through a series of prompts.
 
+### Key Features
+
+- **CLI and Interactive modes**: Choose what you prefer more.
+- **Flexible Color Options**: Specify colors using **RGB** values or **HEX** codes. For gradients, you can use multiple colors in various formats, including gradients with up to four points and random color combinations.
+- **Custom Dimensions**: Adjust the size of generated wallpaper to fit any screen resolution by specifying dimensions in pixels.
+- **Output Options**: Save  generated wallpapers with custom file names and formats.
+- **Interactive Prompts**: Use the interactive mode for an easy-to-use interface.
 
 ## Usage
 
@@ -32,27 +41,50 @@ Run the script in interactive mode.
 huedesk
 ```
 
-## Contents
+## Project Structure
 
-`huedesk.py`: 
-`huedesk_cli.py`: 
-`huedesk_curses.py`: 
-`image_generator.py`: 
-`requirements.txt`: 
-`samples/`: 
-`README.md`: This readme file.
+```
+-/
+│
+├── huedesk.spec           # PyInstaller spec
+├── README.md              # This README
+├── .gitignore             # Gitignore
+├── requirements.txt       # Dependencies
+├── samples/               # Sample images
+│
+└── huedesk/               # Main package directory
+    ├── __init__.py        # Package initializer
+    ├── cli_mode.py        # CLI mode script
+    ├── curses_mode.py     # Curses mode script
+    ├── image_generator.py # Image generator script
+    ├── main.py            # Main script
+    └── utils.py           # Utility functions
+
+```
 
 ## How to run source code
 
 1. Clone this repository
-
-git clone https://github.com/torshin5ergey/python-playground.git
-Go to this project directory
-cd python-playground/automate_boring_stuff_projects/regex_search
-Run Python file with desired options (e.g.)
-python regex_search.py -i <pattern>
-*Compile into an executable (optional):
-pyinstaller regex_search.spec
+```bash
+git clone https://github.com/torshin5ergey/huedesk.git
+```
+2. Go to this project directory
+```bash
+cd huedesk
+```
+3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+4. Run the code
+    - For interactive mode:
+    ```bash
+    python huedesk/main.py
+    ```
+    - For CLI mode (according to [Usage for CLI Mode](#cli-mode))
+    ```
+    python huedesk/main.py [-h] [-d DIMENSIONS] [-c COLOR] [-o OUTPUT]
+    ```
 
 ## Examples for CLI mode
 
