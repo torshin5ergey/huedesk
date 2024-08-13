@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['huedesk\\main.py'],
+    ['huedesk/main.py'],
     pathex=['huedesk'],
     binaries=[],
     datas=[],
